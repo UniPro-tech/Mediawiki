@@ -13,7 +13,7 @@ spec:
   persistentVolumeReclaimPolicy: Retain
   nfs:
     server: 172.16.110.199
-    path: /nfs/wiki/sql
+    path: /nfs/wiki/db
 ---
 apiVersion: v1
 kind: PersistentVolume
