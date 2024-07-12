@@ -1,0 +1,28 @@
+name: Docker Build and Push
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+
+      - name: Check Docker status
+        run: |
+          export DOCKER_CLIENT_TIMEOUT=120
+          export COMPOSE_HTTP_TIMEOUT=120
+          sudo systemctl status docker.service
+          sudo journalctl -xeu docker.service
+
+      - name: Build Docker image
+        run: docker build -t ${{ secrets.K8S_DOCKER_REGISTHOST }}/mediawiki:latest .
+
+      - name: Push Docker image
+        run: docker push ${{ secrets.K8S_DOCKER_REGISTHOST }}/mediawiki:latest
