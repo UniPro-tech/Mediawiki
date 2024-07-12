@@ -43,10 +43,10 @@ spec:
       volumes:
         - name: imgvol
           persistentVolumeClaim:
-            claimName: wikiimg-pvc
+            claimName: img-pvc
         - name: delimgvol
           persistentVolumeClaim:
-            claimName: wikidelimg-pvc
+            claimName: delimg-pvc
         - name: mediawiki-config
           configMap:
             name: mediawiki-config
