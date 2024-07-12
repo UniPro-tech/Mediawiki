@@ -11,6 +11,9 @@ spec:
   accessModes:
     - ReadWriteMany
   persistentVolumeReclaimPolicy: Retain
+  claimRef:
+    namespace: mediawiki
+    name: db-pvc
   nfs:
     server: 172.16.110.199
     path: /nfs/wiki/db
@@ -27,6 +30,9 @@ spec:
   accessModes:
     - ReadWriteMany
   persistentVolumeReclaimPolicy: Retain
+  claimRef:
+    namespace: mediawiki
+    name: img-pvc
   nfs:
     server: 172.16.110.199
     path: /nfs/wiki/image
@@ -43,6 +49,9 @@ spec:
   accessModes:
     - ReadWriteMany
   persistentVolumeReclaimPolicy: Retain
+  claimRef:
+    namespace: mediawiki
+    name: delimg-pvc
   nfs:
     server: 172.16.110.199
     path: /nfs/wiki/del-image
