@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert --volumes hostPath -o ./
+    kompose.version: "1.32.0 (HEAD)"
+  labels:
+    io.kompose.service: mediawiki
+  name: mediawiki
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: mediawiki
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert --volumes hostPath -o ./
+        kompose.version: "1.32.0 (HEAD)"
+      labels:
+        io.kompose.network/downloads-default: "true"
+        io.kompose.service: mediawiki
+    spec:
+      containers:
+        - image: localhost:32000/mediawiki:latest
+          name: wiki
+          ports:
+            - containerPort: 80
+              protocol: TCP
+            - containerPort: 443
+              protocol: TCP
+          volumeMounts:
+            - mountPath: /var/www/html/images
+              name: imgvol
+            - mountPath: /var/www/html/del-images
+              name: delimgvol
+            - name: mediawiki-config
+              mountPath: /var/www/html/LocalSettings.php
+              subPath: LocalSettings.php
+      restartPolicy: Always
+      volumes:
+        - name: imgvol
+          persistentVolumeClaim:
+            claimName: wikiimg-pvc
+        - name: delimgvol
+          persistentVolumeClaim:
+            claimName: wikidelimg-pvc
+        - name: mediawiki-config
+          configMap:
+            name: mediawiki-config
