@@ -29,13 +29,13 @@ data:
     $wgSitename = "UniWiki";
     
     $wgSMTP = [
-    	'host' => 'ssl://unipro.sakura.ne.jp',  // IP アドレスも指定できます。SMTP サーバーのアドレスを指定します。 SSL または TLS を使用する場合は、プレフィックス「ssl://」を追加しますまたは「tls://」。
+    	'host' => getenv('SMTP_HOST'),  // IP アドレスも指定できます。SMTP サーバーのアドレスを指定します。 SSL または TLS を使用する場合は、プレフィックス「ssl://」を追加しますまたは「tls://」。
       'IDHost' => 'wiki.k8s.pm.uniproject-tech.net', // メールの送信元ドメインを指定します。
       'localhost' => 'wiki.k8s.pm.uniproject-tech.net', // ローカルホスト名を指定します。
-    	'port' => 465,                 // SMTP サーバーに接続する際にポートを使用する
+    	'port' => getenv('SMTP_PORT'),                 // SMTP サーバーに接続する際にポートを使用する
     	'auth' => true,                // SMTP 認証を使用するかどうか (true または false) 
-    	'username' => 'webmaster@mail.uniproject-tech.net',      // SMTP認証に使用するユーザー名 (使用する場合) 
-    	'password' => 'webmasterTest0019',        // SMTP認証に使用するパスワード (使用する場合) 
+    	'username' => getenv('SMTP_USERNAME'),      // SMTP認証に使用するユーザー名 (使用する場合) 
+    	'password' => getenv('SMTP_PASSWORD'),        // SMTP認証に使用するパスワード (使用する場合) 
     ];    
     $wgAllowHTMLEmail = true;
     $wgDebugLogFile='/var/www/html/debug.log';
@@ -91,8 +91,8 @@ data:
     $wgDBtype = "mysql";
     $wgDBserver = "mysql.mediawiki:3306";
     $wgDBname = "main_wiki";
-    $wgDBuser = "root";
-    $wgDBpassword = "rooterUnipro0001";
+    $wgDBuser = getenv('DB_USERNAME');
+    $wgDBpassword = getenv('DB_PASSWORD');
     
     # MySQL specific settings
     $wgDBprefix = "main_";
@@ -109,7 +109,7 @@ data:
     $wgUploadDirectory = '/var/www/html/images';
     $wgSharedDB = 'main_wiki';
     $wgSharedDBprefix = 'main_';
-    
+
     ## Shared memory settings
     $wgMainCacheType = CACHE_ACCEL;
     $wgMemCachedServers = [];
@@ -145,14 +145,14 @@ data:
     ## be publicly accessible from the web.
     #$wgCacheDirectory = "$IP/cache";
     
-    $wgSecretKey = "1f48db1e8628dd8ab41297cbb45005c5174452b0e5fb3f9d85df37e5ea9b0e3d";
+    $wgSecretKey = getenv('WG_SECRETKEY');
     
     # Changing this will log out all existing sessions.
     $wgAuthenticationTokenVersion = "1";
     
     # Site upgrade key. Must be set to a string (default provided) to turn on the
     # web installer while LocalSettings.php is in place
-    $wgUpgradeKey = "5742c77f8c97035a";
+    $wgUpgradeKey = getenv('WG_UPGRADEKEY');
     
     ## For attaching licensing metadata to pages, and displaying an
     ## appropriate copyright notice / icon. GNU Free Documentation
@@ -239,3 +239,4 @@ data:
     
     # End of automatically generated settings.
     # Add more configuration options below.
+    $wgShowExceptionDetails = true;

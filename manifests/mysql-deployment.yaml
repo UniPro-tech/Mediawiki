@@ -24,15 +24,10 @@ spec:
         io.kompose.service: mysql
     spec:
       containers:
-        - env:
-            - name: MYSQL_DATABASE
-              value: main_wiki
-            - name: MYSQL_PASSWORD
-              value: wikiSys001
-            - name: MYSQL_ROOT_PASSWORD
-              value: rooterUnipro0001
-            - name: MYSQL_USER
-              value: wikiSys
+        - envFrom:
+          - secretRef:
+              name: mysql-env
+              optional: true
           image: mysql:5.7.28
           name: db
           ports:
