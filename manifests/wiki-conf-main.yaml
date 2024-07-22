@@ -235,6 +235,7 @@ data:
     wfLoadExtension( 'Disambiguator' );
     wfLoadExtension( 'NewUserMessage' );
     wfLoadExtension( 'CheckUser' );
+    wfLoadExtension( 'TemplateStyles' );
     $wgDebugComments = true;
     
     # End of automatically generated settings.
