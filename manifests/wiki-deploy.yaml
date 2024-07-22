@@ -15,6 +15,9 @@ spec:
   strategy:
     type: Recreate
   template:
+    metadata:
+      labels:
+        io.kompose.service: mediawiki
     spec:
       containers:
         - image: localhost:32000/mediawiki:latest
