@@ -15,13 +15,6 @@ spec:
   strategy:
     type: Recreate
   template:
-    metadata:
-      annotations:
-        kompose.cmd: kompose convert --volumes hostPath -o ./
-        kompose.version: "1.32.0 (HEAD)"
-      labels:
-        io.kompose.network/downloads-default: "true"
-        io.kompose.service: mediawiki
     spec:
       containers:
         - image: localhost:32000/mediawiki:latest

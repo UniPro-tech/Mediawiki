@@ -49,35 +49,45 @@ ENV MEDIAWIKI_MAJOR_VERSION 1.41
 ENV MEDIAWIKI_VERSION 1.41.1
 ENV COMPOSER_ALLOW_SUPERUSER 1
 
-# MediaWiki setup
 RUN set -eux; \
+    fetchDeps=" \
+    gnupg \
+    dirmngr \
+    "; \
+    apt-get update; \
+    apt-get install -y --no-install-recommends $fetchDeps; \
+    \
     curl -fSL "https://releases.wikimedia.org/mediawiki/${MEDIAWIKI_MAJOR_VERSION}/mediawiki-${MEDIAWIKI_VERSION}.tar.gz" -o mediawiki.tar.gz; \
     curl -fSL "https://releases.wikimedia.org/mediawiki/${MEDIAWIKI_MAJOR_VERSION}/mediawiki-${MEDIAWIKI_VERSION}.tar.gz.sig" -o mediawiki.tar.gz.sig; \
     export GNUPGHOME="$(mktemp -d)"; \
+    # gpg key from https://www.mediawiki.org/keys/keys.txt
     gpg --batch --keyserver keyserver.ubuntu.com --recv-keys \
     D7D6767D135A514BEB86E9BA75682B08E8A3FEC4 \
     441276E9CCD15F44F6D97D18C119E1A64D70938E \
     F7F780D82EBFB8A56556E7EE82403E59F9F8CD79 \
-    1D98867E82982C8FE0ABC25F9B69B3109D3BB7B0; \
+    1D98867E82982C8FE0ABC25F9B69B3109D3BB7B0 \
+    ; \
     gpg --batch --verify mediawiki.tar.gz.sig mediawiki.tar.gz; \
-    tar -x --strip-components=1 -f mediawiki.tar.gz -C /var/www/html; \
+    tar -x --strip-components=1 -f mediawiki.tar.gz; \
     gpgconf --kill all; \
     rm -r "$GNUPGHOME" mediawiki.tar.gz.sig mediawiki.tar.gz; \
-    chown -R www-data:www-data /var/www/html/extensions /var/www/html/skins /var/www/html/cache /var/www/html/images
+    chown -R www-data:www-data extensions skins cache images;
 
 # Install MediaWiki extensions
 RUN set -eux; \
     cd /var/www/html/extensions; \
-    git clone --depth 1 https://gerrit.wikimedia.org/r/mediawiki/extensions/Wikibase.git --branch REL1_41 Wikibase; \
+    git clone --depth 1 https://gerrit.wikimedia.org/r/mediawiki/extensions/Wikibase.git --branch REL1_42 Wikibase; \
     cd Wikibase; git submodule update --init; cd /var/www/html/extensions; \
-    git clone https://gerrit.wikimedia.org/r/mediawiki/extensions/Babel --branch REL1_41; \
+    git clone https://gerrit.wikimedia.org/r/mediawiki/extensions/Babel --branch REL1_42; \
     cd Babel; git submodule update --init; cd /var/www/html/extensions; \
-    git clone https://gerrit.wikimedia.org/r/mediawiki/extensions/Disambiguator --branch REL1_41; \
+    git clone https://gerrit.wikimedia.org/r/mediawiki/extensions/Disambiguator --branch REL1_42; \
     cd Disambiguator; git submodule update --init; cd /var/www/html/extensions; \
-    git clone https://gerrit.wikimedia.org/r/mediawiki/extensions/NewUserMessage --branch REL1_41; \
+    git clone https://gerrit.wikimedia.org/r/mediawiki/extensions/NewUserMessage --branch REL1_42; \
     cd NewUserMessage; git submodule update --init; cd /var/www/html/extensions; \
-    git clone https://gerrit.wikimedia.org/r/mediawiki/extensions/CheckUser --branch REL1_41; \
-    cd CheckUser; git submodule update --init; cd /var/www/html/extensions;
+    git clone https://gerrit.wikimedia.org/r/mediawiki/extensions/CheckUser --branch REL1_42; \
+    cd CheckUser; git submodule update --init; cd /var/www/html/extensions; \
+    git clone https://gerrit.wikimedia.org/r/mediawiki/extensions/TemplateStyles --branch REL1_42; \
+    cd TemplateStyles; git submodule update --init; cd /var/www/html/extensions; 
 
 # RUN cd /var/www/html/extensions; \
 #     git clone https://gerrit.wikimedia.org/r/mediawiki/extensions/SwiftMailer --branch REL1_41; \
