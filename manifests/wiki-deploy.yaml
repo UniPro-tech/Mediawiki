@@ -20,7 +20,7 @@ spec:
         io.kompose.service: mediawiki
     spec:
       containers:
-        - image: localhost:32000/mediawiki:latest
+        - image: localhost:32000/mediawiki:1.0.0
           name: wiki
           envFrom:
           - secretRef:
