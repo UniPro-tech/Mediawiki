@@ -30,8 +30,8 @@ jobs:
         shell: bash
       - name: Check Docker status
         run: |
-          export DOCKER_CLIENT_TIMEOUT=9000
-          export COMPOSE_HTTP_TIMEOUT=120
+          export DOCKER_CLIENT_TIMEOUT=18000
+          export COMPOSE_HTTP_TIMEOUT=240
           sudo systemctl status docker.service
           sudo journalctl -xeu docker.service
 
