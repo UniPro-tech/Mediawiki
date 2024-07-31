@@ -34,7 +34,7 @@ jobs:
 
       - name: Insecure Setting
         run: |
-          export DOCKER_CLIENT_TIMEOUT=900
+          export DOCKER_CLIENT_TIMEOUT=9000
           export COMPOSE_HTTP_TIMEOUT=120
           sudo systemctl daemon-reload
           sudo systemctl restart docker
