@@ -17,7 +17,7 @@ jobs:
       - name: enable
         run: |
           SW_JSON=""
-          SW_JSON="$(sudo cat /etc/docker/daemon.json | jq '.+{ "insecure-registries":["${{ secrets.K8S_DOCKER_REGISTHOST }}"] }')"
+          SW_JSON="$(sudo cat /etc/docker/daemon.json | jq '.+{ "insecure-registries":["${{ secrets.K8S_DOCKER_REGISTHOST }}"],"max-concurrent-uploads": 1,"debug":true }')"
           echo "${SW_JSON}" | sudo bash -c 'cat -- > /etc/docker/daemon.json'
           sudo cat /etc/docker/daemon.json
           sudo systemctl restart docker || sudo journalctl -xeu docker.service
