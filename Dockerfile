@@ -1,4 +1,12 @@
-# yuitoengineer/mediawiki
-FROM php:8.1-apache
+FROM node:20-alpine
 
-CMD ["apache2-foreground"]
+WORKDIR /nextjs
+
+COPY . .
+
+RUN rm -rf node_modules
+RUN rm -rf .next
+RUN npm install
+RUN npm run build
+
+CMD ["npm", "start"]
