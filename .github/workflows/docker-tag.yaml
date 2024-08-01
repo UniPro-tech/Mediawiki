@@ -1,8 +1,8 @@
 name: Docker Build and Push
 on:
   push:
-    tags:
-      - 'v*'
+    branches:
+      - main
 
 jobs:
   build:

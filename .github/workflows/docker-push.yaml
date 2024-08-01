@@ -50,5 +50,8 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
 
+      - name: Login to Docker Hub
+        run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login ${{ secrets.K8S_DOCKER_REGISTHOST }} -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
+
       - name: Push Docker image
         run: docker push ${{ secrets.K8S_DOCKER_REGISTHOST }}/mediawiki:latest
