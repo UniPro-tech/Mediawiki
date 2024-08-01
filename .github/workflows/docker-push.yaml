@@ -35,7 +35,8 @@ jobs:
           export COMPOSE_HTTP_TIMEOUT=120
           sudo systemctl status docker.service
           sudo journalctl -xeu docker.service
-
+      - name: Check Docker status
+        run: curl -X GET http://${{ secrets.K8S_DOCKER_REGISTHOST }}/v2/_catalog
       - name: Build Docker image
         run: docker build -t ${{ secrets.K8S_DOCKER_REGISTHOST }}/arane-site:latest .
 
