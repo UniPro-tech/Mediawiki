@@ -44,6 +44,15 @@ jobs:
         run: docker build -t ${{ secrets.K8S_DOCKER_REGISTHOST }}/mediawiki:${{ env.TAG_NAME }} .
         id: build
 
+      - name: Save Docker image to file
+        run: docker save ${{ secrets.K8S_DOCKER_REGISTHOST }}/mediawiki:latest -o mediawiki_latest.tar
+
+      - name: Upload Docker image as artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: mediawiki-image
+          path: mediawiki_latest.tar
+
   push:
     runs-on: ubuntu-latest
     needs: build
@@ -51,8 +60,14 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v1
+      - name: Download Docker image artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: mediawiki-image
+          path: .
+
+      - name: Load Docker image from file
+        run: docker load -i mediawiki_latest.tar
 
       - name: Push Docker image
         run: docker push ${{ secrets.K8S_DOCKER_REGISTHOST }}/mediawiki:${{ env.TAG_NAME }}
