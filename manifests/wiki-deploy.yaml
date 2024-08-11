@@ -10,6 +10,9 @@ spec:
   strategy:
     type: Recreate
   template:
+    metadata:
+      labels:
+        app: mediawiki
     spec:
       containers:
         - image: localhost:32000/mediawiki:1.0.0
