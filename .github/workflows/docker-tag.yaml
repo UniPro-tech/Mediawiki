@@ -5,52 +5,23 @@ on:
       - 'v*'
 
 jobs:
-  build:
+  build-and-push:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
-
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v1
 
       - name: Extract tag name
         run: |
           tagname=${GITHUB_REF#refs/*/} && echo "TAG_NAME=${tagname#v}" >> $GITHUB_ENV
 
-      - name: Build Docker image
-        run: docker build -t ${{ secrets.K8S_DOCKER_REGISTHOST }}/mediawiki:${{ env.TAG_NAME }} .
-        id: build
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
 
-      - name: Save Docker image to file
-        run: docker save ${{ secrets.K8S_DOCKER_REGISTHOST }}/mediawiki:latest -o mediawiki_latest.tar
-
-      - name: Upload Docker image as artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: mediawiki-image
-          path: mediawiki_latest.tar
-
-  push:
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-
-      - name: Download Docker image artifact
-        uses: actions/download-artifact@v2
-        with:
-          name: mediawiki-image
-          path: .
-
-      - name: Load Docker image from file
-        run: docker load -i mediawiki_latest.tar
-
-      - name: Set Docker configuration
+      - name: enable
         run: |
           SW_JSON=""
-          SW_JSON="$(sudo cat /etc/docker/daemon.json | jq '.+{ "insecure-registries":["${{ secrets.K8S_DOCKER_REGISTHOST }}"],"max-concurrent-uploads": 1,"debug":true }')"
+          SW_JSON="$(sudo cat /etc/docker/daemon.json | jq '.+{ "insecure-registries":["${{ secrets.K8S_DOCKER_REGISTHOST }}"] }')"
           echo "${SW_JSON}" | sudo bash -c 'cat -- > /etc/docker/daemon.json'
           sudo cat /etc/docker/daemon.json
           sudo systemctl restart docker || sudo journalctl -xeu docker.service
@@ -60,7 +31,16 @@ jobs:
           docker image ls
           echo ---
           sudo systemctl status docker
-        shell: bash
+
+      - name: Insecure Setting
+        run: |
+          export DOCKER_CLIENT_TIMEOUT=120
+          export COMPOSE_HTTP_TIMEOUT=120
+          sudo systemctl daemon-reload
+          sudo systemctl restart docker
+
+      - name: Build Docker image
+        run: docker build -t ${{ secrets.K8S_DOCKER_REGISTHOST }}/mediawiki:${{ env.TAG_NAME }} .
 
       - name: Push Docker image
         run: docker push ${{ secrets.K8S_DOCKER_REGISTHOST }}/mediawiki:${{ env.TAG_NAME }}
