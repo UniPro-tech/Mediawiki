@@ -15,7 +15,7 @@ spec:
         app: mediawiki
     spec:
       containers:
-        - image: localhost:32000/mediawiki:1.0.0
+        - image: localhost:32000/mediawiki:1.1.0
           name: wiki
           envFrom:
           - secretRef:
