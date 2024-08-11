@@ -76,8 +76,6 @@ RUN set -eux; \
 # Install MediaWiki extensions
 RUN set -eux; \
     cd /var/www/html/extensions; \
-    git clone --depth 1 https://gerrit.wikimedia.org/r/mediawiki/extensions/Wikibase.git --branch REL1_42 Wikibase; \
-    cd Wikibase; git submodule update --init; cd /var/www/html/extensions; \
     git clone https://gerrit.wikimedia.org/r/mediawiki/extensions/Babel --branch REL1_42; \
     cd Babel; git submodule update --init; cd /var/www/html/extensions; \
     git clone https://gerrit.wikimedia.org/r/mediawiki/extensions/Disambiguator --branch REL1_42; \
