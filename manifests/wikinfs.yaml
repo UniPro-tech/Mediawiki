@@ -13,7 +13,7 @@ spec:
   persistentVolumeReclaimPolicy: Retain
   claimRef:
     namespace: mediawiki
-    name: imgage
+    name: image
   nfs:
     server: 172.16.110.199
     path: /nfs/infra/wiki/image
