@@ -26,6 +26,9 @@ spec:
           volumeMounts:
             - mountPath: /var/lib/mysql
               name: dbvol
+          env:
+            - name: TZ
+              value: Asia/Tokyo
       restartPolicy: Always
       volumes:
         - name: dbvol
