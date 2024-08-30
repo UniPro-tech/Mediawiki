@@ -242,5 +242,5 @@ data:
     # Add more configuration options below.
     $wgShowExceptionDetails = true;
 
-    # $wgReadOnly = ( PHP_SAPI === 'cli' ) ? false : 'This wiki is currently undergoing maintenance. Please try again later.';
+    $wgReadOnly = ( PHP_SAPI === 'cli' ) ? false : 'This wiki is currently undergoing maintenance. Please try again later.';
     $wgGroupPermissions['tech-team']['siteadmin'] = true;
