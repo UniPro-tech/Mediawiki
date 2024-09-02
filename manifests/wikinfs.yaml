@@ -15,7 +15,7 @@ spec:
     namespace: mediawiki
     name: image
   nfs:
-    server: 172.16.110.199
+    server: nfs.unipro.infra
     path: /nfs/infra/wiki/image
 ---
 apiVersion: v1
@@ -34,7 +34,7 @@ spec:
     namespace: mediawiki
     name: delimage
   nfs:
-    server: 172.16.110.199
+    server: nfs.unipro.infra
     path: /nfs/infra/wiki/del-image
 ---
 apiVersion: v1
@@ -43,8 +43,6 @@ metadata:
   name: image
   labels:
     app: mediawiki
-  annotations:
-    "volume.beta.kubernetes.io/storage-class": "slow"
 spec:
   accessModes:
     - ReadWriteMany
@@ -59,8 +57,6 @@ metadata:
   name: delimage
   labels:
     app: mediawiki
-  annotations:
-    "volume.beta.kubernetes.io/storage-class": "slow"
 spec:
   accessModes:
     - ReadWriteMany
