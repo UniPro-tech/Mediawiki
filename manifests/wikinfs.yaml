@@ -43,6 +43,8 @@ metadata:
   name: image
   labels:
     app: mediawiki
+  annotations:
+    "volume.beta.kubernetes.io/storage-class": "slow"
 spec:
   accessModes:
     - ReadWriteMany
@@ -57,6 +59,8 @@ metadata:
   name: delimages
   labels:
     app: mediawiki
+  annotations:
+    "volume.beta.kubernetes.io/storage-class": "slow"
 spec:
   accessModes:
     - ReadWriteMany

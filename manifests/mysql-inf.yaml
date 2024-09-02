@@ -5,6 +5,8 @@ metadata:
   name: db-data
   labels:
     app: mysql
+  annotations:
+    "volume.beta.kubernetes.io/storage-class": "slow"
 spec:
   accessModes:
     - ReadWriteMany
@@ -16,7 +18,9 @@ spec:
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: wiki-db-data
+  name: wiki-db
+  annotations:
+    volume.beta.kubernetes.io/storage-class: "slow"
 spec:
   capacity:
     storage: 10Gi
