@@ -43,10 +43,10 @@ spec:
       volumes:
         - name: imgvol
           persistentVolumeClaim:
-            claimName: image
+            claimName: images
         - name: delimgvol
           persistentVolumeClaim:
-            claimName: delimage
+            claimName: delimages
         - name: mediawiki-config
           configMap:
             name: mediawiki-config
