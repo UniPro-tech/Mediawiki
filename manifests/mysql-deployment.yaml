@@ -33,4 +33,4 @@ spec:
       volumes:
         - name: dbvol
           persistentVolumeClaim:
-            claimName: db-data
+            claimName: db
