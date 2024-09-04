@@ -22,7 +22,7 @@ jobs:
         run: docker save ${{ secrets.K8S_DOCKER_REGISTHOST }}/mediawiki:latest -o mediawiki_latest.tar
 
       - name: Upload Docker image as artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: mediawiki-image
           path: mediawiki_latest.tar
@@ -35,7 +35,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Download Docker image artifact
-        uses: actions/download-artifact@v4.1.7
+        uses: actions/download-artifact@v4
         with:
           name: mediawiki-image
           path: .
