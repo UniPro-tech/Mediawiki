@@ -36,9 +36,6 @@ spec:
             - name: mediawiki-config
               mountPath: /var/www/html/LocalSettings.php
               subPath: LocalSettings.php
-          env:
-            - name: TZ
-              value: Asia/Tokyo
       restartPolicy: Always
       volumes:
         - name: imgvol
