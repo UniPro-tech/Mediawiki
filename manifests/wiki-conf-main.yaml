@@ -89,7 +89,7 @@ data:
     
     ## Database settings
     $wgDBtype = "mysql";
-    $wgDBserver = "mysql.mediawiki:3306";
+    $wgDBserver = "exsample:3306";
     $wgDBname = "main_wiki";
     $wgDBuser = getenv('DB_USERNAME');
     $wgDBpassword = getenv('DB_PASSWORD');
