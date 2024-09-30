@@ -220,6 +220,7 @@ data:
     wfLoadExtension( 'VisualEditor' );
     wfLoadExtension( 'WikiEditor' );
     # wfLoadExtension( 'SwiftMailer' );
+    wfLoadExtension( 'AutoCreateCategoryPages' );
 
     $wgBabelCategoryNames = [
     	'0' => 'User %code%-0',
