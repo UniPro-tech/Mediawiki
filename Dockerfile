@@ -85,7 +85,9 @@ RUN set -eux; \
     git clone https://gerrit.wikimedia.org/r/mediawiki/extensions/CheckUser --branch REL1_42; \
     cd CheckUser; git submodule update --init; cd /var/www/html/extensions; \
     git clone https://gerrit.wikimedia.org/r/mediawiki/extensions/TemplateStyles --branch REL1_42; \
-    cd TemplateStyles; git submodule update --init; cd /var/www/html/extensions; 
+    cd TemplateStyles; git submodule update --init; cd /var/www/html/extensions; \
+    git clone https://gerrit.wikimedia.org/r/mediawiki/extensions/AutoCreateCategoryPages --branch REL1_42; \
+    cd AutoCreateCategoryPages; git submodule update --init; cd /var/www/html/extensions;
 
 # RUN cd /var/www/html/extensions; \
 #     git clone https://gerrit.wikimedia.org/r/mediawiki/extensions/SwiftMailer --branch REL1_41; \
