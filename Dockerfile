@@ -100,6 +100,7 @@ RUN curl -s https://getcomposer.org/installer | php; \
 
 COPY composer.local.json /var/www/html/composer.local.json
 RUN cd /var/www/html; composer install; composer update
+RUN rm -r /var/www/html/composer.local.json /var/www/html/composer.lock /var/www/html/composer.json
 
 # RUN composer require phpmailer/phpmailer
 # COPY mailsender.php /var/www/html/mailsender.php
