@@ -58,7 +58,7 @@ data:
     $wgScriptPath = "";
 
     ## The protocol and server name to use in fully-qualified URLs
-    $wgServer = "https://wiki.uniproject-tech.net";
+    $wgServer = "https://wiki-old.uniproject-tech.net";
 
     ## The URL path to static resources (images, scripts, etc.)
     $wgResourceBasePath = $wgScriptPath;
