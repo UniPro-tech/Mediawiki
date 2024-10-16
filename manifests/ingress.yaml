@@ -3,9 +3,10 @@ kind: Ingress
 metadata:
   name: mediawiki-ingress
   annotations:
-    cert-manager.io/cluster-issuer: cluster-issuer
+    #cert-manager.io/cluster-issuer: cluster-issuer
     nginx.ingress.kubernetes.io/rewrite-target: /$1
-    #nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "false"
 spec:
   ingressClassName: nginx
   rules:
@@ -19,7 +20,7 @@ spec:
             name: mediawiki
             port:
               number: 80
-  tls:
-  - hosts:
-    - wiki-old.uniproject-tech.net
-    secretName: mediawiki-tls
+  #tls:
+  #- hosts:
+  #  - wiki-old.uniproject-tech.net
+  #  secretName: mediawiki-tls
