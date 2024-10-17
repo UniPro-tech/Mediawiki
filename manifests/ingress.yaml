@@ -3,24 +3,25 @@ kind: Ingress
 metadata:
   name: mediawiki-ingress
   annotations:
-    #cert-manager.io/cluster-issuer: cluster-issuer
-    nginx.ingress.kubernetes.io/rewrite-target: /$1
+    cert-manager.io/cluster-issuer: cloudflare
     nginx.ingress.kubernetes.io/ssl-redirect: "false"
     nginx.ingress.kubernetes.io/force-ssl-redirect: "false"
+    nginx.ingress.kubernetes.io/from-to-www-redirect: "true"
 spec:
   ingressClassName: nginx
   rules:
   - host: wiki-old.uniproject-tech.net
     http:
       paths:
-      - path: /(?!\.well-known/.+)(.*)
+      - path: /
         pathType: Prefix
         backend:
           service:
             name: mediawiki
             port:
               number: 80
-  #tls:
-  #- hosts:
-  #  - wiki-old.uniproject-tech.net
-  #  secretName: mediawiki-tls
+  tls:
+  - hosts:
+    - wiki-old.uniproject-tech.net
+    - www.wiki-old.uniproject-tech.net
+    secretName: mediawiki-tls
