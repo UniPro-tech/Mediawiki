@@ -43,20 +43,5 @@ jobs:
       - name: Load Docker image from file
         run: docker load -i mediawiki_latest.tar
 
-      - name: Set Docker configuration
-        run: |
-          SW_JSON=""
-          SW_JSON="$(sudo cat /etc/docker/daemon.json | jq '.+{ "insecure-registries":["${{ secrets.K8S_DOCKER_REGISTHOST }}"],"max-concurrent-uploads": 1,"debug":true }')"
-          echo "${SW_JSON}" | sudo bash -c 'cat -- > /etc/docker/daemon.json'
-          sudo cat /etc/docker/daemon.json
-          sudo systemctl restart docker || sudo journalctl -xeu docker.service
-          echo ---
-          docker info
-          echo ---
-          docker image ls
-          echo ---
-          sudo systemctl status docker
-        shell: bash
-
       - name: Push Docker image
         run: docker push ${{ secrets.K8S_DOCKER_REGISTHOST }}/mediawiki:latest
